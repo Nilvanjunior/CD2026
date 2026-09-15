@@ -1,0 +1,34 @@
+body {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: blue;
+    background-color: aliceblue;
+    background-image: url(./imagens/fundoestrela.png);
+    margin: auto;
+}
+
+a {
+    color: red;
+    text-decoration: none;
+}
+
+a:hover {
+    color: blue;
+    font-size: x-large;
+    font-weight: 900;
+}
+
+.topo {
+    background-color: skyblue;
+    padding: auto;
+}
+
+.topo-conteudo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 32px;
+}
+
+.topo-conteudo img{
+    height: 60px;
+}
