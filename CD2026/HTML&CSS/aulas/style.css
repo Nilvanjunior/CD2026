@@ -1,23 +1,12 @@
-<<<<<<< HEAD
 body {
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    color: darkslategray;
+    font-family: 'Georgia', Garamond, 'Times New Roman', serif;
+    color: darkslategrey;
     background-color: linen;
-=======
-/* body {
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    color: darkslategray;
-    background-color: ivory;
->>>>>>> 0d64df9bc0c4c0de73923f53cb706ac1cf6e1c92
     margin: 0;
 }
 
 a {
-<<<<<<< HEAD
-    color: firebrick;
-=======
-    color: sienna;
->>>>>>> 0d64df9bc0c4c0de73923f53cb706ac1cf6e1c92
+    color: maroon;
     text-decoration: none;
 }
 
@@ -39,113 +28,38 @@ a:hover {
 }
 
 .topo-conteudo a {
-<<<<<<< HEAD
-    color: saddlebrown;
-}
-
-.topo-conteudo a:hover {
-    color: firebrick;
-=======
-    color: beige;
+    color: maroon;
 }
 
 .topo-conteudo a:hover {
     color: darkred;
->>>>>>> 0d64df9bc0c4c0de73923f53cb706ac1cf6e1c92
 }
 
-.topo-conteudo img{
+.topo-conteudo img {
     height: 60px;
-    border-radius: 50px;
+    border-radius: 50%;
 }
 
 .apresentacao {
     text-align: center;
-    padding: 60px 160px;
+    padding: 80px 20px;
 }
 
 .botao {
-<<<<<<< HEAD
-=======
     color: antiquewhite;
     background-color: maroon;
     padding: 12px 28px;
     border-radius: 4px;
+    display: inline-block;
 }
 
-.botao a:hover {
+.botao:hover {
     background-color: darkred;
     color: antiquewhite;
 }
 
 .produtos {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px;
-} */
-
-body {
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    color: darkslategray;
-    background-color: linen;
-    margin: 0;
-}
-
-a {
-    color: firebrick;
-    text-decoration: none;
-}
-
-a:hover {
-    color: darkred;
-}
-
-.topo {
-    background-color: antiquewhite;
-    border-bottom: 1px solid tan;
-    padding: 16px 0;
-}
-
-.topo-conteudo {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 32px;
-}
-
-.topo-conteudo a {
-    color: saddlebrown;
-}
-
-.topo-conteudo a:hover {
-    color: firebrick;
-}
-
-.topo-conteudo img{
-    height: 60px;
-    border-radius: 50px;
-}
-
-.apresentacao {
-    text-align: center;
-    padding: 60px 160px;
-}
-
-.botao {
->>>>>>> 0d64df9bc0c4c0de73923f53cb706ac1cf6e1c92
-    color: linen;
-    background-color: firebrick;
-    padding: 12px 28px;
-    border-radius: 4px;
-}
-
-.botao a:hover {
-    background-color: darkred;
-    color: linen;
-}
-
-.produtos {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
