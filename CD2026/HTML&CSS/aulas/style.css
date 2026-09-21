@@ -1,22 +1,23 @@
-body {
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    color: crimson;
-    background-color: white;
-    margin: auto;
+/* body {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: darkslategray;
+    background-color: ivory;
+    margin: 0;
 }
 
 a {
-    color: crimson;
+    color: sienna;
     text-decoration: none;
 }
 
 a:hover {
-    color: cornsilk;
+    color: darkred;
 }
 
 .topo {
-    background-color: black;
-    padding: auto;
+    background-color: antiquewhite;
+    border-bottom: 1px solid tan;
+    padding: 16px 0;
 }
 
 .topo-conteudo {
@@ -24,6 +25,14 @@ a:hover {
     justify-content: space-between;
     align-items: center;
     padding: 0 32px;
+}
+
+.topo-conteudo a {
+    color: beige;
+}
+
+.topo-conteudo a:hover {
+    color: darkred;
 }
 
 .topo-conteudo img{
@@ -37,10 +46,80 @@ a:hover {
 }
 
 .botao {
-    color: cornsilk;
-    background-color: crimson;
-    padding: 10px 10px;
-    border-radius: 10em;
+    color: antiquewhite;
+    background-color: maroon;
+    padding: 12px 28px;
+    border-radius: 4px;
+}
+
+.botao a:hover {
+    background-color: darkred;
+    color: antiquewhite;
+}
+
+.produtos {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+} */
+
+body {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: darkslategray;
+    background-color: linen;
+    margin: 0;
+}
+
+a {
+    color: firebrick;
+    text-decoration: none;
+}
+
+a:hover {
+    color: darkred;
+}
+
+.topo {
+    background-color: antiquewhite;
+    border-bottom: 1px solid tan;
+    padding: 16px 0;
+}
+
+.topo-conteudo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 32px;
+}
+
+.topo-conteudo a {
+    color: saddlebrown;
+}
+
+.topo-conteudo a:hover {
+    color: firebrick;
+}
+
+.topo-conteudo img{
+    height: 60px;
+    border-radius: 50px;
+}
+
+.apresentacao {
+    text-align: center;
+    padding: 60px 160px;
+}
+
+.botao {
+    color: linen;
+    background-color: firebrick;
+    padding: 12px 28px;
+    border-radius: 4px;
+}
+
+.botao a:hover {
+    background-color: darkred;
+    color: linen;
 }
 
 .produtos {
