@@ -62,4 +62,20 @@ a:hover {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0 20px;
+    margin-bottom: 40px;
+}
+
+.produto {
+    background-color: white;
+    padding: 16px;
+    border-radius: 10px;
+}
+
+.produto img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
 }
