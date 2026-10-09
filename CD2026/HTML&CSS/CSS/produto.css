@@ -1,0 +1,153 @@
+body {
+    font-family: 'Georgia', Garamond, 'Times New Roman', serif;
+    color: darkslategrey;
+    background-color: linen;
+    margin: 0px;
+}
+
+a {
+    color: darkred;
+    text-decoration: none;
+}
+
+a:hover {
+    color: maroon;
+}
+
+.topo {
+    background-color: antiquewhite;
+    border-bottom: 1px solid tan;
+    padding: 16px 0px;
+}
+
+.topo-conteudo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 32px;
+}
+
+.marca {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.menu a {
+    margin-left: 16px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0px auto;
+    padding: 20px;
+}
+
+.voltar {
+    display: inline-block;
+    margin-bottom: 24px;
+    font-weight: bold;
+}
+
+.detalhe {
+    background-color: white;
+    padding: 32px;
+    border-radius: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.detalhe-imagem img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.detalhe-info h1 {
+    margin-top: 0px;
+    font-size: 35px;
+    color: darkslategrey;
+}
+
+.preco-grande {
+    font-size: 28px;
+    font-weight: bold;
+    color: maroon;
+    margin: 12px 0px;
+}
+
+.descricao {
+    line-height: 24px;
+    margin-bottom: 24px;
+    font-size: 16px;
+}
+
+.secao-opcao h2 {
+    font-size: 18px;
+    margin-bottom: 12px;
+}
+
+.opcoes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.opcao-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1px solid tan;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #fafafa;
+    transition: background-color 0.2s;
+}
+
+.opcao-item:hover {
+    background-color: antiquewhite;
+}
+
+.compra-acao {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.quantidade {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+}
+
+.quantidade input {
+    width: 50px;
+    padding: 8px;
+    border: 1px solid tan;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.botao {
+    color: antiquewhite;
+    background-color: maroon;
+    padding: 12px 28px;
+    border-radius: 4px;
+    display: inline-block;
+    text-align: center;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.botao:hover {
+    background-color: darkred;
+    color: antiquewhite;
+}

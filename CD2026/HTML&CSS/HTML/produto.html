@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pudim - Detalhes do Produto</title>
+    <link rel="stylesheet" href="../CSS/produto.css">
+</head>
+<body>
+
+    <header class="topo">
+        <div class="container topo-conteudo">
+            <a href="index.html" class="marca">Loja</a>
+            <nav class="menu">
+                <a href="index.html#cardapio">Cardápio</a>
+                <a href="index.html#sobre">Sobre</a>
+                <a href="index.html#contato">Contato</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container pagina-produto">
+
+        <a href="index.html#cardapio" class="voltar"> Voltar para o cardápio</a>
+
+        <section class="detalhe">
+            <div class="detalhe-imagem">
+                <img src="../imagens/pudim.png" alt="Pudim Tradicional">
+            </div>
+
+            <div class="detalhe-info">
+                <h1>Pudim Tradicional</h1>
+                <p class="preco-grande">R$ 18,00</p>
+                <p class="descricao">Pudim cremoso de leite condensado com calda de caramelo caseira, feito com receita tradicional.</p>
+                
+                <h2>Tamanho / Variação</h2>
+                <div class="opcoes">
+                    <button class="opcao ativa">Individual (150g)</button>
+                    <button class="opcao">Médio (500g)</button>
+                    <button class="opcao">Grande (1kg)</button>
+                </div>
+
+                <div class="quantidade-container">
+                    <label for="qtd">Quantidade:</label>
+                    <input type="number" id="qtd" value="1" min="1" max="10" class="input-quantidade">
+                </div>
+
+                <a href="#" class="botao botao-comprar">Adicionar ao Pedido</a>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+</html>
