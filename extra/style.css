@@ -46,3 +46,18 @@ body {
     border-radius: 10px;
     border: 2px solid red;
 }
+
+.layout {
+    display: flex;
+    gap: 20px;
+}
+
+.menu {
+    background-color: orange;
+    padding: 20px;
+}
+
+.texto {
+    background-color: aqua;
+    padding: 20px;
+}
