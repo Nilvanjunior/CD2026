@@ -1,0 +1,46 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+
+.cabecalho {
+    background-color: blue;
+    color: white;
+    padding: 25px;
+}
+
+.secao {
+    padding: 25px;
+}
+
+.caixa-fixa {
+    width: 700px;
+    background-color: red;
+    color: white;
+    padding: 10px;
+}
+
+.caixa-fluida {
+    width: 100%;
+    background-color: blue;
+    color: white;
+    padding: 10px;
+}
+
+
+.parent {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.div1, .div2, .div3, .div4 {
+    grid-column: span 2 / span 2;
+    grid-row: span 2 / span 2;
+    background-color: green;
+}
