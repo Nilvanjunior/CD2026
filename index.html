@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lado B — Sebo Sonoro & Comunidade</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Ícones Lucide -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Work+Sans:wght@300;400;500;600&display=swap');
+    body {
+      font-family: 'Work Sans', sans-serif;
+      background-color: #0f0d0b;
+      color: #f3ede2;
+    }
+    h1, h2, h3, h4, .font-heading {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .badge-troca {
+      background-color: #e06c3a;
+      color: #fff;
+    }
+    .badge-venda {
+      background-color: #2b7a78;
+      color: #fff;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+  <!-- NAVBAR -->
+  <header class="border-b border-amber-950/40 bg-[#161311] sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+      <!-- Logo -->
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="navegar('home')">
+        <div class="w-10 h-10 rounded-full bg-amber-600 flex items-center justify-center text-white shadow-lg shadow-amber-900/30">
+          <i data-lucide="disc-3" class="animate-spin-slow"></i>
+        </div>
+        <span class="font-heading text-2xl font-bold tracking-tight text-amber-100">Lado<span class="text-amber-500">B</span></span>
+      </div>
+
+      <!-- Links de Navegação -->
+      <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-amber-200/80">
+        <button onclick="navegar('home')" class="hover:text-amber-400 transition">Explorar Sebo</button>
+        <button onclick="navegar('forum')" class="hover:text-amber-400 transition">Fórum da Galera</button>
+        <button onclick="navegar('eventos')" class="hover:text-amber-400 transition">Feiras & Encontros</button>
+        <button onclick="navegar('sobre')" class="hover:text-amber-400 transition">Nossa História</button>
+      </nav>
+
+      <!-- Ações do Usuário -->
+      <div class="flex items-center space-x-3">
+        <button onclick="navegar('anunciar')" class="bg-amber-600 hover:bg-amber-500 text-white px-3.5 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1.5 transition">
+          <i data-lucide="plus-circle" class="w-4 h-4"></i>
+          <span>Desapegar / Trocar</span>
+        </button>
+        <button onclick="abrirPerfil('@barretovinil')" class="p-1.5 rounded-full hover:bg-stone-800 transition text-amber-200" title="Meu Perfil">
+          <i data-lucide="user" class="w-5 h-5"></i>
+        </button>
+        <button onclick="abrirModalLogin()" class="text-xs border border-amber-800/80 px-2.5 py-1.5 rounded-md hover:bg-stone-800 transition">Entrar</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTEÚDO PRINCIPAL (SPA TABS) -->
+  <main class="flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
+
+    <!-- 1. TELA: HOME / ANÚNCIOS -->
+    <section id="tab-home">
+      <!-- Banner Hero -->
+      <div class="bg-gradient-to-r from-amber-950/60 to-stone-900 border border-amber-900/40 rounded-2xl p-8 mb-8 text-center md:text-left md:flex justify-between items-center">
+        <div>
+          <span class="text-amber-500 text-xs font-semibold tracking-wider uppercase">Sebo Comunitário e Colaborativo</span>
+          <h1 class="text-3xl md:text-5xl font-bold mt-1 text-amber-50">Não deixe seus discos parados na prateleira.</h1>
+          <p class="text-stone-300 mt-2 max-w-xl text-sm md:text-base">Mídia física feita para rodar. Troque aquele vinil repetido por outra joia, venda a preço justo ou debata lançamentos raros.</p>
+        </div>
+        <div class="mt-6 md:mt-0 flex flex-col gap-2">
+          <button onclick="filtrarTipo('Troca')" class="bg-amber-700/80 hover:bg-amber-600 px-5 py-2.5 rounded-lg font-medium text-sm flex items-center justify-center gap-2">
+            <i data-lucide="refresh-cw" class="w-4 h-4"></i> Ver Apenas Trocas
+          </button>
+        </div>
+      </div>
+
+      <!-- Barra de Filtros -->
+      <div class="bg-[#191512] border border-amber-950 p-4 rounded-xl mb-8 space-y-4">
+        <div class="flex flex-col md:flex-row gap-3">
+          <div class="flex-1 relative">
+            <i data-lucide="search" class="absolute left-3 top-3 w-4 h-4 text-stone-500"></i>
+            <input type="text" id="filtro-busca" oninput="aplicarFiltros()" placeholder="Buscar por disco, banda, artista ou fita..." class="w-full pl-9 pr-4 py-2 bg-stone-900 border border-stone-800 rounded-lg text-sm text-amber-100 placeholder-stone-500 focus:outline-none focus:border-amber-600">
+          </div>
+          
+          <select id="filtro-genero" onchange="aplicarFiltros()" class="bg-stone-900 border border-stone-800 rounded-lg px-3 py-2 text-sm text-stone-300">
+            <option value="">Todos os Gêneros</option>
+            <option value="MPB / Tropicalismo">MPB / Tropicalismo</option>
+            <option value="Rock / Psicodelia">Rock / Psicodelia</option>
+            <option value="Jazz / Blues">Jazz / Blues</option>
+            <option value="Hip-Hop">Hip-Hop</option>
+          </select>
+
+          <select id="filtro-formato" onchange="aplicarFiltros()" class="bg-stone-900 border border-stone-800 rounded-lg px-3 py-2 text-sm text-stone-300">
+            <option value="">Todos os Formatos</option>
+            <option value="Vinil LP">Vinil (LP / Compacto)</option>
+            <option value="Fita K7">Fita Cassete (K7)</option>
+            <option value="CD">CD Original</option>
+          </select>
+
+          <select id="filtro-modalidade" onchange="aplicarFiltros()" class="bg-stone-900 border border-stone-800 rounded-lg px-3 py-2 text-sm text-stone-300">
+            <option value="">Troca ou Venda</option>
+            <option value="Troca">Apenas Troca</option>
+            <option value="Venda">Venda</option>
+            <option value="Ambos">Troca ou Venda</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Grid de Itens -->
+      <div id="grid-anuncios" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+    </section>
+
+    <!-- 2. TELA: DETALHES DO PRODUTO (NOVA) -->
+    <section id="tab-detalhes-produto" class="hidden">
+      <!-- Botão Voltar -->
+      <button onclick="navegar('home')" class="mb-6 flex items-center gap-2 text-sm text-stone-400 hover:text-amber-400 transition">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i> Voltar aos Anúncios
+      </button>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 bg-[#181412] border border-stone-800 rounded-2xl p-6 md:p-8">
+        <!-- Coluna Esquerda: Galeria de Fotos -->
+        <div class="lg:col-span-6 space-y-4">
+          <div class="aspect-square w-full rounded-xl overflow-hidden border border-stone-800 bg-stone-950">
+            <img id="detalhe-foto-principal" src="" alt="Capa" class="w-full h-full object-cover transition-all duration-300">
+          </div>
+          <!-- Miniaturas -->
+          <div id="detalhe-miniaturas" class="flex gap-3 overflow-x-auto pb-2"></div>
+        </div>
+
+        <!-- Coluna Direita: Informações & Negociação -->
+        <div class="lg:col-span-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span id="detalhe-genero" class="text-xs uppercase tracking-wider font-bold text-amber-500"></span>
+              <span class="text-stone-600">•</span>
+              <span id="detalhe-formato" class="text-xs text-stone-400"></span>
+            </div>
+
+            <h1 id="detalhe-titulo" class="text-3xl font-heading font-bold text-white mb-1"></h1>
+            <p id="detalhe-artista" class="text-lg text-amber-200/90 font-medium mb-4"></p>
+
+            <!-- Badge Preço / Troca -->
+            <div class="mb-6 flex items-center gap-3">
+              <div id="detalhe-status-badge" class="px-3.5 py-1.5 rounded-lg font-bold text-sm"></div>
+              <span class="text-xs text-stone-400">Publicado no Sebo Sonoro</span>
+            </div>
+
+            <!-- Ficha Técnica Analógica -->
+            <div class="grid grid-cols-2 gap-3 bg-stone-900/60 p-4 rounded-xl border border-stone-800 text-xs mb-6">
+              <div>
+                <span class="text-stone-500 block">Condição da Mídia:</span>
+                <strong id="detalhe-midia" class="text-amber-300 font-semibold"></strong>
+              </div>
+              <div>
+                <span class="text-stone-500 block">Condição da Capa:</span>
+                <strong id="detalhe-capa" class="text-amber-300 font-semibold"></strong>
+              </div>
+              <div>
+                <span class="text-stone-500 block">Ano de Lançamento / Prensagem:</span>
+                <span id="detalhe-ano" class="text-stone-200"></span>
+              </div>
+              <div>
+                <span class="text-stone-500 block">Gravadora / Selo:</span>
+                <span id="detalhe-selo" class="text-stone-200"></span>
+              </div>
+            </div>
+
+            <!-- O que aceita em troca -->
+            <div class="bg-amber-950/30 border border-amber-900/50 rounded-xl p-4 mb-6">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5 mb-1">
+                <i data-lucide="refresh-cw" class="w-4 h-4"></i> Wishlist de Troca do Colecionador:
+              </h4>
+              <p id="detalhe-desejo" class="text-sm text-amber-100 font-medium"></p>
+            </div>
+
+            <!-- Tracklist / Descrição -->
+            <div class="mb-6">
+              <h4 class="text-xs font-semibold uppercase text-stone-400 mb-2">Faixas em Destaque</h4>
+              <ul id="detalhe-faixas" class="text-xs text-stone-300 space-y-1 list-disc list-inside"></ul>
+            </div>
+          </div>
+
+          <!-- Card do Colecionador & Ação -->
+          <div class="border-t border-stone-800 pt-6">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-3 cursor-pointer" onclick="abrirPerfilDoProduto()">
+                <div id="detalhe-vendedor-avatar" class="w-11 h-11 rounded-full bg-amber-800 text-amber-200 flex items-center justify-center font-bold"></div>
+                <div>
+                  <h4 id="detalhe-vendedor-nome" class="text-sm font-bold text-white hover:text-amber-400 transition"></h4>
+                  <span id="detalhe-vendedor-cidade" class="text-xs text-stone-400"></span>
+                </div>
+              </div>
+              <button onclick="abrirPerfilDoProduto()" class="text-xs text-amber-400 hover:underline">Ver Perfil Completo</button>
+            </div>
+
+            <div class="flex gap-3">
+              <button onclick="abrirModalTroca()" class="flex-1 bg-amber-600 hover:bg-amber-500 text-white font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 text-sm shadow-lg shadow-amber-950">
+                <i data-lucide="repeat" class="w-4 h-4"></i> Propor Troca de Disco
+              </button>
+              <button onclick="iniciarConversaRapida()" class="px-4 border border-stone-700 hover:border-amber-700 rounded-xl text-stone-300 hover:text-white transition" title="Enviar Mensagem">
+                <i data-lucide="message-circle" class="w-5 h-5"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. TELA: FÓRUM (LISTA DE TÓPICOS) -->
+    <section id="tab-forum" class="hidden">
+      <div class="flex justify-between items-center mb-6">
+        <div>
+          <h2 class="text-3xl font-bold font-heading">Fórum da Comunidade</h2>
+          <p class="text-stone-400 text-sm">Debata prensagens, conservação, fita cassete, álbuns raros e o mundo analógico.</p>
+        </div>
+        <button onclick="alert('Criar novo tópico: Em breve!')" class="bg-amber-600 hover:bg-amber-500 text-white px-4 py-2 rounded-lg text-sm font-medium">Novo Tópico</button>
+      </div>
+
+      <div id="lista-topicos" class="space-y-4"></div>
+    </section>
+
+    <!-- 4. TELA: CONVERSA DO TÓPICO DO FÓRUM (NOVA) -->
+    <section id="tab-topico-forum" class="hidden max-w-4xl mx-auto">
+      <button onclick="navegar('forum')" class="mb-6 flex items-center gap-2 text-sm text-stone-400 hover:text-amber-400 transition">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i> Voltar aos Tópicos
+      </button>
+
+      <!-- Mensagem Original -->
+      <div class="bg-[#181412] border border-amber-900/40 rounded-2xl p-6 mb-6">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <div id="topico-autor-avatar" class="w-10 h-10 rounded-full bg-amber-700 text-white flex items-center justify-center font-bold text-sm cursor-pointer" onclick="abrirPerfilDoTopico()"></div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span id="topico-autor-nome" class="font-bold text-sm text-white hover:text-amber-400 cursor-pointer" onclick="abrirPerfilDoTopico()"></span>
+                <span id="topico-autor-badge" class="text-[10px] bg-stone-800 text-stone-300 px-2 py-0.5 rounded border border-stone-700"></span>
+              </div>
+              <span id="topico-data" class="text-xs text-stone-500"></span>
+            </div>
+          </div>
+          <span id="topico-tag" class="text-xs bg-amber-950 text-amber-300 border border-amber-800 px-2.5 py-1 rounded"></span>
+        </div>
+
+        <h1 id="topico-titulo" class="text-2xl font-bold font-heading text-amber-50 mb-3"></h1>
+        <p id="topico-conteudo" class="text-stone-300 text-sm leading-relaxed whitespace-pre-line"></p>
+      </div>
+
+      <!-- Respostas / Chat Comunitário -->
+      <div class="space-y-4 mb-8">
+        <h3 class="text-xs uppercase font-bold tracking-wider text-stone-400 mb-2 flex items-center gap-2">
+          <i data-lucide="messages-square" class="w-4 h-4 text-amber-500"></i> Respostas da Galera (<span id="topico-qtd-respostas">0</span>)
+        </h3>
+
+        <!-- Feed de Comentários -->
+        <div id="feed-respostas" class="space-y-3"></div>
+      </div>
+
+      <!-- Barra de Chat / Envio de Resposta -->
+      <div class="bg-[#191512] border border-stone-800 p-4 rounded-xl sticky bottom-4 shadow-2xl backdrop-blur-md">
+        <form onsubmit="enviarRespostaForum(event)" class="flex gap-2">
+          <input type="text" id="campo-resposta-forum" placeholder="Escreva sua opinião, dica ou dúvida neste tópico..." required class="flex-1 bg-stone-900 border border-stone-800 rounded-lg px-4 py-2.5 text-sm text-white placeholder-stone-500 focus:outline-none focus:border-amber-600">
+          <button type="submit" class="bg-amber-600 hover:bg-amber-500 text-white px-5 py-2.5 rounded-lg text-sm font-bold flex items-center gap-2 transition">
+            <span>Enviar</span>
+            <i data-lucide="send" class="w-4 h-4"></i>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- 5. TELA: CRIAR ANÚNCIO (VENDA / TROCA) -->
+    <section id="tab-anunciar" class="hidden max-w-2xl mx-auto">
+      <div class="bg-[#181412] p-8 rounded-2xl border border-amber-900/40">
+        <h2 class="text-2xl font-bold font-heading mb-1 text-amber-50">Cadastrar no Sebo</h2>
+        <p class="text-sm text-stone-400 mb-6">Coloque seu disco, fita ou equipamento na roda. Trocas são o coração do Lado B!</p>
+
+        <form id="form-novo-anuncio" onsubmit="criarAnuncio(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-stone-300 mb-1">Título do Álbum / Item</label>
+            <input type="text" id="novo-titulo" required placeholder="Ex: Acabou Chorare - Novos Baianos" class="w-full px-3 py-2 bg-stone-900 border border-stone-800 rounded-lg text-sm text-white focus:outline-none focus:border-amber-600">
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-stone-300 mb-1">Artista / Banda</label>
+              <input type="text" id="novo-artista" required placeholder="Ex: Novos Baianos" class="w-full px-3 py-2 bg-stone-900 border border-stone-800 rounded-lg text-sm text-white">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-stone-300 mb-1">Ano da Prensagem</label>
+              <input type="text" id="novo-ano" placeholder="Ex: 1972 (Som Livre)" class="w-full px-3 py-2 bg-stone-900 border border-stone-800 rounded-lg text-sm text-white">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-stone-300 mb-1">Formato</label>
+              <select id="novo-formato" class="w-full px-3 py-2 bg-stone-900 border border-stone-800 rounded-lg text-sm text-white">
+                <option value="Vinil LP">Vinil LP</option>
+                <option value="Fita K7">Fita K7</option>
+                <option value="CD">CD Original</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-stone-300 mb-1">Gênero Principal</label>
+              <select id="novo-genero" class="w-full px-3 py-2 bg-stone-900 border border-stone-800 rounded-lg text-sm text-white">
+                <option value="MPB / Tropicalismo">MPB / Tropicalismo</option>
+                <option value="Rock / Psicodelia">Rock / Psicodelia</option>
+                <option value="Jazz / Blues">Jazz / Blues</option>
+                <option value="Hip-Hop">Hip-Hop</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-stone-300 mb-1">Estado de Conservação (Mídia)</label>
+              <select id="novo-estado" class="w-full px-3 py-2 bg-stone-900 border border-stone-800 rounded-lg text-sm text-white">
+                <option value="NM (Quase Perfeito)">NM (Quase Perfeito)</option>
+                <option value="VG+ (Muito Bom +)">VG+ (Muito Bom +)</option>
+                <option value="VG (Marcas Leves)">VG (Marcas Leves)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-stone-300 mb-1">Modalidade</label>
+              <select id="novo-tipo" onchange="togglePrecoField(this.value)" class="w-full px-3 py-2 bg-stone-900 border border-stone-800 rounded-lg text-sm text-white">
+                <option value="Troca">Apenas Troca</option>
+                <option value="Ambos">Troca ou Venda</option>
+                <option value="Venda">Apenas Venda</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="campo-preco" class="hidden">
+            <label class="block text-xs font-semibold text-stone-300 mb-1">Preço Sugerido (R$)</label>
+            <input type="number" id="novo-preco" placeholder="Ex: 85" class="w-full px-3 py-2 bg-stone-900 border border-stone-800 rounded-lg text-sm text-white">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-amber-400 mb-1">Wishlist de Troca (O que gostaria de receber em troca?)</label>
+            <input type="text" id="novo-desejo" placeholder="Ex: Troco por Jorge Ben, Tim Maia ou Gal Costa" class="w-full px-3 py-2 bg-stone-900 border border-stone-800 rounded-lg text-sm text-white focus:outline-none focus:border-amber-600">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-stone-300 mb-1">URL da Foto Principal</label>
+            <input type="url" id="novo-img" placeholder="https://..." class="w-full px-3 py-2 bg-stone-900 border border-stone-800 rounded-lg text-sm text-white">
+          </div>
+
+          <button type="submit" class="w-full bg-amber-600 hover:bg-amber-500 py-3 rounded-lg font-bold text-white transition mt-4">
+            Publicar no Sebo
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- 6. TELA: EVENTOS PRESENCIAIS DE TROCA -->
+    <section id="tab-eventos" class="hidden">
+      <div class="mb-8">
+        <h2 class="text-3xl font-bold font-heading">Feiras & Encontros de Troca</h2>
+        <p class="text-stone-400 text-sm">O contato digital é prático, mas o cheiro de encarte e a conversa olho no olho são insubstituíveis.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-[#181412] border border-amber-900/40 rounded-xl overflow-hidden flex flex-col md:flex-row">
+          <div class="bg-amber-900/40 md:w-36 flex flex-col items-center justify-center p-6 text-center border-b md:border-b-0 md:border-r border-stone-800">
+            <span class="text-xs uppercase tracking-widest text-amber-400 font-bold">NOV</span>
+            <span class="text-4xl font-extrabold font-heading text-white">14</span>
+            <span class="text-xs text-stone-400">Sábado • 14h</span>
+          </div>
+          <div class="p-6 flex-1">
+            <span class="text-xs text-emerald-400 font-medium">Entrada Gratuita</span>
+            <h3 class="font-heading font-bold text-lg text-amber-50 mt-1">1º Mutirão de Troca de Discos - Praça Roosevelt</h3>
+            <p class="text-stone-400 text-sm mt-2">Traga sua sacola com até 10 discos ou fitas. Teremos toca-discos de teste disponíveis com fones de ouvido para você conferir as condições das faixas.</p>
+            <div class="mt-4 flex items-center justify-between text-xs text-stone-500">
+              <span>São Paulo - SP</span>
+              <button onclick="alert('Presença confirmada! Te esperamos com sua sacola de discos.')" class="text-amber-400 hover:underline">Confirmar Presença</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-[#181412] border border-amber-900/40 rounded-xl overflow-hidden flex flex-col md:flex-row">
+          <div class="bg-amber-900/40 md:w-36 flex flex-col items-center justify-center p-6 text-center border-b md:border-b-0 md:border-r border-stone-800">
+            <span class="text-xs uppercase tracking-widest text-amber-400 font-bold">DEZ</span>
+            <span class="text-4xl font-extrabold font-heading text-white">05</span>
+            <span class="text-xs text-stone-400">Domingo • 10h</span>
+          </div>
+          <div class="p-6 flex-1">
+            <span class="text-xs text-amber-400 font-medium">Fitas Cassete & Raridades</span>
+            <h3 class="font-heading font-bold text-lg text-amber-50 mt-1">Feira de Cultura Analógica & Fanzines</h3>
+            <p class="text-stone-400 text-sm mt-2">Foco em fitas cassete, rádios portáteis e material de garagem. Workshop gratuito de manutenção básica de tape decks.</p>
+            <div class="mt-4 flex items-center justify-between text-xs text-stone-500">
+              <span>Belo Horizonte - MG</span>
+              <button onclick="alert('Presença confirmada no encontro em BH!')" class="text-amber-400 hover:underline">Confirmar Presença</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. TELA: PERFIL DE USUÁRIO DINÂMICO -->
+    <section id="tab-perfil" class="hidden">
+      <div class="bg-[#181412] border border-stone-800 rounded-2xl p-6 md:p-8">
+        <div class="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between border-b border-stone-800/80 pb-6">
+          <div class="flex items-center gap-4">
+            <div id="perfil-avatar" class="w-20 h-20 rounded-full bg-amber-800/50 border-2 border-amber-500 flex items-center justify-center text-3xl font-heading font-bold text-amber-200"></div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h2 id="perfil-nome" class="text-2xl font-bold font-heading text-white"></h2>
+                <span id="perfil-reputacao" class="text-xs bg-amber-950 text-amber-300 border border-amber-800 px-2.5 py-0.5 rounded-full font-semibold"></span>
+              </div>
+              <p id="perfil-sub" class="text-stone-400 text-sm"></p>
+              <p id="perfil-bio" class="text-xs text-stone-400 mt-1 italic"></p>
+            </div>
+          </div>
+          <div class="flex gap-6 text-center">
+            <div>
+              <p id="perfil-trocas" class="text-2xl font-bold font-heading text-amber-400">18</p>
+              <p class="text-xs text-stone-500 uppercase">Trocas Feitas</p>
+            </div>
+            <div>
+              <p id="perfil-ativos" class="text-2xl font-bold font-heading text-stone-200">4</p>
+              <p class="text-xs text-stone-500 uppercase">No Sebo</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6 mt-6">
+          <div>
+            <h4 class="text-xs font-semibold uppercase text-stone-400 mb-2">Setup de Som</h4>
+            <div id="perfil-setup" class="bg-stone-900/60 p-3.5 rounded-lg border border-stone-800 text-xs text-stone-300 space-y-1.5"></div>
+          </div>
+
+          <div>
+            <h4 class="text-xs font-semibold uppercase text-stone-400 mb-2">Gêneros Favoritos</h4>
+            <div id="perfil-generos" class="flex flex-wrap gap-2"></div>
+          </div>
+
+          <div>
+            <h4 class="text-xs font-semibold uppercase text-stone-400 mb-2">Wishlist de Desejos (Troca)</h4>
+            <ul id="perfil-wishlist" class="text-xs text-stone-300 space-y-1 list-disc list-inside"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. TELA: SOBRE / LINHA DO TEMPO -->
+    <section id="tab-sobre" class="hidden max-w-3xl mx-auto">
+      <div class="text-center mb-10">
+        <h2 class="text-3xl md:text-4xl font-bold font-heading mb-2">A História do Lado B</h2>
+        <p class="text-stone-400 text-sm">Como 6 amigos apaixonados por som analógico decidiram criar uma alternativa aos algoritmos frios de streaming.</p>
+      </div>
+
+      <div class="space-y-8 relative before:absolute before:inset-0 before:left-5 before:h-full before:w-0.5 before:bg-amber-900/50">
+        <div class="relative flex items-start space-x-6">
+          <div class="w-10 h-10 rounded-full bg-amber-600 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-lg">1</div>
+          <div class="bg-[#181412] p-5 rounded-xl border border-stone-800 flex-1">
+            <span class="text-xs font-semibold text-amber-500">Março de 2024</span>
+            <h3 class="font-heading font-bold text-base text-amber-100 mt-1">A Troca na Garagem</h3>
+            <p class="text-stone-400 text-sm mt-1">O grupo de 6 estudantes se reuniu para trocar discos duplicados em caixas de feira. Percebemos que as lojas cobravam caro para comprar de nós e revendiam por preços abusivos: o modelo de sebo precisava pertencer à comunidade de verdade.</p>
+          </div>
+        </div>
+
+        <div class="relative flex items-start space-x-6">
+          <div class="w-10 h-10 rounded-full bg-amber-700 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-lg">2</div>
+          <div class="bg-[#181412] p-5 rounded-xl border border-stone-800 flex-1">
+            <span class="text-xs font-semibold text-amber-500">Agosto de 2024</span>
+            <h3 class="font-heading font-bold text-base text-amber-100 mt-1">O Primeiro Código</h3>
+            <p class="text-stone-400 text-sm mt-1">A equipe dividiu os papéis entre front, back e UX. Criamos a regra mestra: troca tem o mesmo peso (ou mais) que a venda em dinheiro.</p>
+          </div>
+        </div>
+
+        <div class="relative flex items-start space-x-6">
+          <div class="w-10 h-10 rounded-full bg-amber-800 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-lg">3</div>
+          <div class="bg-[#181412] p-5 rounded-xl border border-stone-800 flex-1">
+            <span class="text-xs font-semibold text-amber-500">Hoje</span>
+            <h3 class="font-heading font-bold text-base text-amber-100 mt-1">Uma Rede Viva de Mídia Física</h3>
+            <p class="text-stone-400 text-sm mt-1">Unimos o fórum, o mapa de feiras de rua e centenas de discos circulando de agulha em agulha pelo Brasil.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: PROPOR TROCA -->
+  <div id="modal-troca" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-[#181412] border border-amber-900/60 w-full max-w-md p-6 rounded-2xl relative shadow-2xl">
+      <button onclick="fecharModalTroca()" class="absolute right-4 top-4 text-stone-400 hover:text-white">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="flex items-center gap-2 mb-2 text-amber-500 font-bold text-sm">
+        <i data-lucide="repeat" class="w-4 h-4"></i> Proposta de Troca
+      </div>
+      <h3 id="modal-troca-item" class="text-lg font-heading font-bold text-white mb-2"></h3>
+      <p class="text-xs text-stone-400 mb-4">Envie uma mensagem dizendo qual disco ou fita da sua coleção você oferece em contrapartida:</p>
+
+      <form onsubmit="confirmarPropostaTroca(event)" class="space-y-3">
+        <div>
+          <label class="block text-xs font-semibold text-stone-300 mb-1">O que você oferece em troca?</label>
+          <input type="text" required placeholder="Ex: Ofereço LP Tim Maia Racional Vol. 2 (VG+)" class="w-full px-3 py-2 bg-stone-900 border border-stone-800 rounded-lg text-sm text-white focus:outline-none focus:border-amber-600">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-stone-300 mb-1">Mensagem ou link de fotos do seu disco</label>
+          <textarea rows="3" placeholder="Olá! Meu disco está perfeito, sem chiados. Se topar a troca, podemos nos encontrar na feira ou combinar via Correios." class="w-full px-3 py-2 bg-stone-900 border border-stone-800 rounded-lg text-sm text-white"></textarea>
+        </div>
+        <button type="submit" class="w-full bg-amber-600 hover:bg-amber-500 text-white font-bold py-2.5 rounded-lg text-sm transition">
+          Enviar Proposta de Troca
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL DE LOGIN -->
+  <div id="modal-login" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-[#181412] border border-stone-800 w-full max-w-sm p-6 rounded-2xl relative shadow-2xl">
+      <button onclick="fecharModalLogin()" class="absolute right-4 top-4 text-stone-400 hover:text-white">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      
+      <div class="text-center mb-6">
+        <div class="w-12 h-12 bg-amber-600/20 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-2">
+          <i data-lucide="disc" class="w-6 h-6"></i>
+        </div>
+        <h3 class="font-heading font-bold text-xl text-white">Entrar no Lado B</h3>
+        <p class="text-xs text-stone-400">Acesse sua coleção e suas propostas de troca</p>
+      </div>
+
+      <form onsubmit="realizarLogin(event)" class="space-y-3">
+        <div>
+          <label class="block text-xs font-medium text-stone-300 mb-1">E-mail ou Usuário</label>
+          <input type="text" required placeholder="colecionador@ladob.com" class="w-full px-3 py-2 bg-stone-900 border border-stone-800 rounded-lg text-sm text-white">
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-stone-300 mb-1">Senha</label>
+          <input type="password" required placeholder="••••••••" class="w-full px-3 py-2 bg-stone-900 border border-stone-800 rounded-lg text-sm text-white">
+        </div>
+        <button type="submit" class="w-full bg-amber-600 hover:bg-amber-500 text-white font-bold py-2.5 rounded-lg text-sm transition mt-2">
+          Entrar na Agulha
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-stone-900 bg-[#0e0c0a] py-6 text-center text-xs text-stone-500">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-2">
+      <p>Lado B © 2024 — Feito por um grupo de 6 sonhadores analógicos.</p>
+      <p>Troque discos, faça amizades, cuide da sua agulha.</p>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT & ESTADO -->
+  <script>
+    // 1. BASE DE USUÁRIOS
+    const usuarios = {
+      "@marcos_sound": {
+        nome: "Marcos Vinícius",
+        cidade: "São Paulo, SP",
+        reputacao: "Colecionador Ouro (★ 4.9)",
+        trocas: 24,
+        ativos: 5,
+        bio: "Colecionador de MPB psicodélica dos anos 70 e bossa jazz.",
+        setup: ["🎛️ Toca-discos Technics SL-1200MK2", "🔊 Receiver Sansui 5050", "🧲 Cápsula Nagaoka MP-110"],
+        generos: ["MPB / Tropicalismo", "Jazz Fusão", "Soul Brasileiro"],
+        wishlist: ["Lô Borges - A Via Láctea", "Som Imaginário - Matança do Porco", "Hermeto Pascoal - Slaves Mass"]
+      },
+      "@ana_pink": {
+        nome: "Ana Beatriz",
+        cidade: "Rio de Janeiro, RJ",
+        reputacao: "Trocadora Raiz (★ 5.0)",
+        trocas: 14,
+        ativos: 3,
+        bio: "Apaixonada por Rock Progressivo dos anos 70 e Art Rock.",
+        setup: ["🎛️ Rega Planar 1", "🔊 Edifier R1700BT", "🧲 Carbon Ortofon"],
+        generos: ["Rock / Psicodelia", "Progressivo", "Folk"],
+        wishlist: ["Genesis - Selling England by the Pound", "Yes - Close to the Edge"]
+      },
+      "@tape_head": {
+        nome: "Rodrigo 'K7' Lima",
+        cidade: "Curitiba, PR",
+        reputacao: "Mestre da Fita (★ 4.8)",
+        trocas: 31,
+        ativos: 8,
+        bio: "Restaurador de fitas cassete e caçador de demos de rap e punk.",
+        setup: ["🎛️ Tape Deck Akai CS-M02", "🔊 Monitor Alesis Elevate 5", "📻 Walkman Sony WM-FX290"],
+        generos: ["Hip-Hop", "Punk Rock", "Hardcore"],
+        wishlist: ["Racionais MCs - Raio X Brasil (K7 original)", "Câmbio Negro - Sub-Raça"]
+      },
+      "@barretovinil": {
+        nome: "Gabriel Barreto",
+        cidade: "Curitiba, PR",
+        reputacao: "Trocador Confiável (★ 4.9)",
+        trocas: 18,
+        ativos: 6,
+        bio: "Garimpando bossa nova dos anos 60 e shoegaze noventista.",
+        setup: ["🎛️ Gradiente DD-100", "🔊 Edifier R1280T", "🧲 Shure M44-7"],
+        generos: ["Bossa Nova", "Jazz Fusão", "Dream Pop"],
+        wishlist: ["Lô Borges - Disco do Tênis", "Cocteau Twins - Heaven or Las Vegas"]
+      }
+    };
+
+    // 2. BASE DE PRODUTOS / ANÚNCIOS
+    let anuncios = [
+      {
+        id: 1,
+        titulo: "Clube da Esquina",
+        artista: "Milton Nascimento & Lô Borges",
+        ano: "1972 (1ª Prensagem Odeon)",
+        selo: "Odeon - SMOFB 3732",
+        formato: "Vinil LP",
+        genero: "MPB / Tropicalismo",
+        estadoMidia: "VG+ (Muito Bom +)",
+        estadoCapa: "VG (Leve desgaste nas bordas)",
+        tipo: "Troca",
+        preco: null,
+        desejo: "Troco por LPs de Jazz Fusão (Hermeto, Miles) ou Mutantes",
+        usuario: "@marcos_sound",
+        faixas: ["Tudo Que Você Podia Ser", "Cais", "O Trem Azul", "Cravo e Canela", "Paisagem da Janela"],
+        fotos: [
+          "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80"
+        ]
+      },
+      {
+        id: 2,
+        titulo: "The Dark Side of the Moon",
+        artista: "Pink Floyd",
+        ano: "1973 (Prensagem UK Gatefold)",
+        selo: "Harvest Records",
+        formato: "Vinil LP",
+        genero: "Rock / Psicodelia",
+        estadoMidia: "NM (Quase Perfeito)",
+        estadoCapa: "NM (Com os dois pôsteres)",
+        tipo: "Ambos",
+        preco: 140,
+        desejo: "Aceito álbuns do Led Zeppelin, King Crimson ou vendo",
+        usuario: "@ana_pink",
+        faixas: ["Speak to Me / Breathe", "Time", "Money", "Us and Them", "Brain Damage / Eclipse"],
+        fotos: [
+          "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=800&q=80"
+        ]
+      },
+      {
+        id: 3,
+        titulo: "Sobrevivendo no Inferno (K7)",
+        artista: "Racionais MC's",
+        ano: "1997 (Tape Original Cosa Nostra)",
+        selo: "Cosa Nostra",
+        formato: "Fita K7",
+        genero: "Hip-Hop",
+        estadoMidia: "VG+ (Reproduzindo limpo)",
+        estadoCapa: "VG+ (Encarte original com letras)",
+        tipo: "Troca",
+        preco: null,
+        desejo: "Procuro fitas cassete de Punk Rock nacional anos 80",
+        usuario: "@tape_head",
+        faixas: ["Capítulo 4, Versículo 3", "Diário de um Detento", "Fórmula Mágica da Paz", "Mágico de Oz"],
+        fotos: [
+          "https://images.unsplash.com/photo-1594623930572-300a3011d9ae?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80"
+        ]
+      },
+      {
+        id: 4,
+        titulo: "Kind of Blue",
+        artista: "Miles Davis",
+        ano: "1959 / Edição 1997 Remaster",
+        selo: "Columbia Legacy",
+        formato: "CD",
+        genero: "Jazz / Blues",
+        estadoMidia: "NM (Sem riscos)",
+        estadoCapa: "NM (Encarte intacto)",
+        tipo: "Venda",
+        preco: 45,
+        desejo: "Apenas venda ou troca por CDs de Coltrane",
+        usuario: "@marcos_sound",
+        faixas: ["So What", "Freddie Freeloader", "Blue in Green", "All Blues", "Flamenco Sketches"],
+        fotos: [
+          "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80"
+        ]
+      }
+    ];
+
+    // 3. BASE DO FÓRUM COM RESPOSTAS
+    let topicos = [
+      {
+        id: 1,
+        categoria: "Equipamentos & Agulhas",
+        titulo: "Qual a melhor agulha de entrada para quem pegou um Technics SL usado?",
+        autor: "@barretovinil",
+        autorNome: "Gabriel Barreto",
+        data: "Publicado há 3 horas",
+        conteudo: "Acabei de resgatar um Technics SL-D2 do meu tio. A mecânica tá 100%, mas a agulha original tá bem torta e gasta.\n\nVocês recomendam ir direto numa Audio-Technica AT-VM95E ou investir um pouco mais na famosa Ortofon 2M Red? Meu foco é ouvir MPB dos anos 70 e Jazz.",
+        respostas: [
+          {
+            autor: "@marcos_sound",
+            autorNome: "Marcos Vinícius",
+            cargo: "Colecionador Ouro",
+            data: "Há 2 horas",
+            texto: "Cara, vai de AT-VM95E de olhos fechados! A vantagem é que depois você pode só trocar o stylus por um Microline (ML) sem trocar o corpo da cápsula. A 2M Red costuma chiar bastante nos sulcos mais internos se o alinhamento não for perfeito."
+          },
+          {
+            autor: "@ana_pink",
+            autorNome: "Ana Beatriz",
+            cargo: "Trocadora Raiz",
+            data: "Há 40 minutos",
+            texto: "Assino embaixo do que o Marcos falou. Além disso, compre um transferidor de alinhamento Baerwald impresso em papel fotográfico pra calibrar direitinho. Fez toda a diferença no meu som!"
+          }
+        ]
+      },
+      {
+        id: 2,
+        categoria: "Trocas & Cuidados",
+        titulo: "Guia: Como embalar discos de vinil para enviar pelo Correio sem quebrar a capa",
+        autor: "@ana_pink",
+        autorNome: "Ana Beatriz",
+        data: "Publicado ontem",
+        conteudo: "Vejo muita gente cometendo o erro de enviar o vinil dentro da capa externa. Com o balanço do transporte, a borda do disco corta o papelão (o famoso 'seam split').\n\nSempre tire o disco com o plástico interno e coloque ELE FORA da capa original, ensanduichado entre dois papelões ondulados bem firmes!",
+        respostas: [
+          {
+            autor: "@tape_head",
+            autorNome: "Rodrigo 'K7' Lima",
+            cargo: "Mestre da Fita",
+            data: "Ontem às 21:00",
+            texto: "Perfeito esse toque! Pra fitas K7 também vale a regra: encher a caixinha de acrílico com plástico bolha pra travar as bobinas e não desenrolar."
+          }
+        ]
+      }
+    ];
+
+    let produtoAtual = null;
+    let topicoAtual = null;
+
+    // RENDERIZAR ANÚNCIOS NA HOME
+    function renderizarAnuncios(lista) {
+      const grid = document.getElementById('grid-anuncios');
+      grid.innerHTML = '';
+
+      if (lista.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center py-12 text-stone-500">Nenhum tesouro encontrado com esses filtros.</div>`;
+        return;
+      }
+
+      lista.forEach(item => {
+        const badgeCor = item.tipo === 'Troca' ? 'badge-troca' : (item.tipo === 'Venda' ? 'badge-venda' : 'bg-purple-700 text-white');
+        const badgeTexto = item.tipo === 'Ambos' ? 'Troca ou R$ ' + item.preco : (item.tipo === 'Venda' ? 'R$ ' + item.preco : 'Apenas Troca');
+
+        const card = document.createElement('div');
+        card.className = "bg-[#181412] border border-stone-800 rounded-xl overflow-hidden flex flex-col hover:border-amber-700 transition cursor-pointer group";
+        card.onclick = () => abrirDetalhesProduto(item.id);
+
+        card.innerHTML = `
+          <div class="h-48 overflow-hidden relative bg-stone-900">
+            <img src="${item.fotos[0]}" alt="${item.titulo}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+            <span class="absolute top-2 right-2 text-xs font-bold px-2.5 py-1 rounded-md shadow-md ${badgeCor}">
+              ${badgeTexto}
+            </span>
+            <span class="absolute bottom-2 left-2 text-[10px] bg-black/75 backdrop-blur-sm text-stone-300 px-2 py-0.5 rounded">
+              ${item.formato} • ${item.estadoMidia}
+            </span>
+          </div>
+          <div class="p-4 flex-1 flex flex-col justify-between">
+            <div>
+              <span class="text-[11px] text-amber-500 font-medium">${item.genero}</span>
+              <h3 class="font-heading font-bold text-base text-amber-50 line-clamp-1 mt-0.5">${item.titulo}</h3>
+              <p class="text-xs text-stone-400">${item.artista}</p>
+              <p class="text-xs text-stone-300 mt-2 bg-stone-900/80 p-2 rounded border border-stone-800">
+                <strong class="text-amber-400">Quer:</strong> ${item.desejo}
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-stone-800/80 flex items-center justify-between text-xs text-stone-500">
+              <span class="hover:text-amber-300">${item.usuario}</span>
+              <span class="text-amber-400 font-semibold flex items-center gap-1">Ver Detalhes <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></span>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+      lucide.createIcons();
+    }
+
+    // ABRIR TELA DE DETALHES DO PRODUTO
+    function abrirDetalhesProduto(id) {
+      produtoAtual = anuncios.find(a => a.id === id);
+      if (!produtoAtual) return;
+
+      document.getElementById('detalhe-titulo').innerText = produtoAtual.titulo;
+      document.getElementById('detalhe-artista').innerText = produtoAtual.artista;
+      document.getElementById('detalhe-genero').innerText = produtoAtual.genero;
+      document.getElementById('detalhe-formato').innerText = produtoAtual.formato;
+      document.getElementById('detalhe-midia').innerText = produtoAtual.estadoMidia;
+      document.getElementById('detalhe-capa').innerText = produtoAtual.estadoCapa;
+      document.getElementById('detalhe-ano').innerText = produtoAtual.ano;
+      document.getElementById('detalhe-selo').innerText = produtoAtual.selo;
+      document.getElementById('detalhe-desejo').innerText = produtoAtual.desejo;
+
+      // Status Badge
+      const statusBadge = document.getElementById('detalhe-status-badge');
+      if (produtoAtual.tipo === 'Troca') {
+        statusBadge.className = 'badge-troca px-3.5 py-1.5 rounded-lg font-bold text-sm';
+        statusBadge.innerText = 'Disponível para Troca';
+      } else if (produtoAtual.tipo === 'Venda') {
+        statusBadge.className = 'badge-venda px-3.5 py-1.5 rounded-lg font-bold text-sm';
+        statusBadge.innerText = `Venda por R$ ${produtoAtual.preco}`;
+      } else {
+        statusBadge.className = 'bg-purple-700 text-white px-3.5 py-1.5 rounded-lg font-bold text-sm';
+        statusBadge.innerText = `Troca ou Compra por R$ ${produtoAtual.preco}`;
+      }
+
+      // Galeria e Miniaturas
+      const fotoPrincipal = document.getElementById('detalhe-foto-principal');
+      fotoPrincipal.src = produtoAtual.fotos[0];
+
+      const miniaturas = document.getElementById('detalhe-miniaturas');
+      miniaturas.innerHTML = '';
+      produtoAtual.fotos.forEach((foto, index) => {
+        const mini = document.createElement('img');
+        mini.src = foto;
+        mini.className = `w-16 h-16 rounded-lg object-cover cursor-pointer border-2 ${index === 0 ? 'border-amber-500' : 'border-stone-800 opacity-60'} hover:opacity-100 transition`;
+        mini.onclick = () => {
+          fotoPrincipal.src = foto;
+          document.querySelectorAll('#detalhe-miniaturas img').forEach(img => img.classList.replace('border-amber-500', 'border-stone-800'));
+          mini.classList.replace('border-stone-800', 'border-amber-500');
+        };
+        miniaturas.appendChild(mini);
+      });
+
+      // Faixas
+      const faixasContainer = document.getElementById('detalhe-faixas');
+      faixasContainer.innerHTML = '';
+      produtoAtual.faixas.forEach(f => {
+        const li = document.createElement('li');
+        li.innerText = f;
+        faixasContainer.appendChild(li);
+      });
+
+      // Vendedor
+      const user = usuarios[produtoAtual.usuario] || { nome: produtoAtual.usuario, cidade: "Brasil" };
+      document.getElementById('detalhe-vendedor-nome').innerText = user.nome + ` (${produtoAtual.usuario})`;
+      document.getElementById('detalhe-vendedor-cidade').innerText = user.cidade;
+      document.getElementById('detalhe-vendedor-avatar').innerText = user.nome.charAt(0);
+
+      navegar('detalhes-produto');
+    }
+
+    function abrirPerfilDoProduto() {
+      if (produtoAtual) abrirPerfil(produtoAtual.usuario);
+    }
+
+    // MODAL DE TROCA
+    function abrirModalTroca() {
+      document.getElementById('modal-troca-item').innerText = `${produtoAtual.titulo} (${produtoAtual.artista})`;
+      document.getElementById('modal-troca').classList.remove('hidden');
+    }
+    function fecharModalTroca() {
+      document.getElementById('modal-troca').classList.add('hidden');
+    }
+    function confirmarPropostaTroca(e) {
+      e.preventDefault();
+      alert(`Sua proposta de troca para "${produtoAtual.titulo}" foi enviada para ${produtoAtual.usuario}! Você receberá uma notificação quando ele responder.`);
+      fecharModalTroca();
+    }
+    function iniciarConversaRapida() {
+      alert(`Chat direto aberto com ${produtoAtual.usuario}! Envie uma mensagem combinando entrega ou detalhes do item.`);
+    }
+
+    // RENDERIZAR FÓRUM (LISTA)
+    function renderizarTopicosForum() {
+      const lista = document.getElementById('lista-topicos');
+      lista.innerHTML = '';
+
+      topicos.forEach(topico => {
+        const item = document.createElement('div');
+        item.className = "bg-[#181412] p-5 rounded-xl border border-stone-800 hover:border-amber-800 transition cursor-pointer";
+        item.onclick = () => abrirTopicoForum(topico.id);
+
+        item.innerHTML = `
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-xs bg-amber-950 text-amber-300 border border-amber-900 px-2 py-0.5 rounded font-medium">${topico.categoria}</span>
+            <span class="text-xs text-stone-500">• por <strong class="text-stone-400">${topico.autor}</strong> (${topico.autorNome}) • ${topico.data}</span>
+          </div>
+          <h3 class="font-heading font-bold text-lg text-amber-100">${topico.titulo}</h3>
+          <p class="text-stone-400 text-sm line-clamp-2 mt-1">${topico.conteudo}</p>
+          <div class="flex items-center gap-4 mt-4 text-xs text-stone-400">
+            <span class="flex items-center gap-1 text-amber-400"><i data-lucide="message-square" class="w-3.5 h-3.5"></i> ${topico.respostas.length} respostas na conversa</span>
+          </div>
+        `;
+        lista.appendChild(item);
+      });
+      lucide.createIcons();
+    }
+
+    // ABRIR CONVERSA DE UM TÓPICO DO FÓRUM
+    function abrirTopicoForum(id) {
+      topicoAtual = topicos.find(t => t.id === id);
+      if (!topicoAtual) return;
+
+      document.getElementById('topico-titulo').innerText = topicoAtual.titulo;
+      document.getElementById('topico-conteudo').innerText = topicoAtual.conteudo;
+      document.getElementById('topico-tag').innerText = topicoAtual.categoria;
+      document.getElementById('topico-autor-nome').innerText = topicoAtual.autorNome + ` (${topicoAtual.autor})`;
+      document.getElementById('topico-autor-badge').innerText = (usuarios[topicoAtual.autor] || {}).reputacao || 'Membro do Sebo';
+      document.getElementById('topico-data').innerText = topicoAtual.data;
+      document.getElementById('topico-autor-avatar').innerText = topicoAtual.autorNome.charAt(0);
+
+      renderizarFeedRespostas();
+      navegar('topico-forum');
+    }
+
+    function abrirPerfilDoTopico() {
+      if (topicoAtual) abrirPerfil(topicoAtual.autor);
+    }
+
+    function renderizarFeedRespostas() {
+      const feed = document.getElementById('feed-respostas');
+      feed.innerHTML = '';
+      document.getElementById('topico-qtd-respostas').innerText = topicoAtual.respostas.length;
+
+      topicoAtual.respostas.forEach(resp => {
+        const bubble = document.createElement('div');
+        bubble.className = "bg-[#161311] border border-stone-800/80 p-4 rounded-xl flex items-start gap-3";
+        bubble.innerHTML = `
+          <div class="w-9 h-9 rounded-full bg-amber-900/60 text-amber-300 flex items-center justify-center font-bold text-xs shrink-0 cursor-pointer" onclick="abrirPerfil('${resp.autor}')">
+            ${resp.autorNome.charAt(0)}
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center justify-between mb-1">
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-xs text-amber-100 hover:text-amber-400 cursor-pointer" onclick="abrirPerfil('${resp.autor}')">${resp.autorNome}</span>
+                <span class="text-[10px] text-stone-500">${resp.autor}</span>
+                <span class="text-[10px] bg-stone-800 text-amber-400/90 px-1.5 py-0.2 rounded">${resp.cargo}</span>
+              </div>
+              <span class="text-[10px] text-stone-500">${resp.data}</span>
+            </div>
+            <p class="text-xs text-stone-300 leading-relaxed">${resp.texto}</p>
+          </div>
+        `;
+        feed.appendChild(bubble);
+      });
+      lucide.createIcons();
+    }
+
+    // ENVIAR RESPOSTA NO CHAT DO FÓRUM
+    function enviarRespostaForum(e) {
+      e.preventDefault();
+      const input = document.getElementById('campo-resposta-forum');
+      const texto = input.value.trim();
+      if (!texto) return;
+
+      topicoAtual.respostas.push({
+        autor: "@barretovinil",
+        autorNome: "Gabriel Barreto",
+        cargo: "Você",
+        data: "Agora mesmo",
+        texto: texto
+      });
+
+      input.value = '';
+      renderizarFeedRespostas();
+    }
+
+    // ABRIR PERFIL DINÂMICO
+    function abrirPerfil(handle) {
+      const user = usuarios[handle] || {
+        nome: handle,
+        cidade: "Brasil",
+        reputacao: "Membro da Comunidade",
+        trocas: 1,
+        ativos: 1,
+        bio: "Colecionador de música em busca de boas trocas.",
+        setup: ["🎛️ Toca-discos padrão", "🔊 Caixas Estéreo"],
+        generos: ["Vinil"],
+        wishlist: ["Novos álbuns"]
+      };
+
+      document.getElementById('perfil-nome').innerText = user.nome;
+      document.getElementById('perfil-sub').innerText = `${handle} • ${user.cidade}`;
+      document.getElementById('perfil-reputacao').innerText = user.reputacao;
+      document.getElementById('perfil-bio').innerText = `"${user.bio}"`;
+      document.getElementById('perfil-avatar').innerText = user.nome.charAt(0);
+      document.getElementById('perfil-trocas').innerText = user.trocas;
+      document.getElementById('perfil-ativos').innerText = user.ativos;
+
+      // Setup
+      const setupDiv = document.getElementById('perfil-setup');
+      setupDiv.innerHTML = user.setup.map(s => `<p>${s}</p>`).join('');
+
+      // Gêneros
+      const genDiv = document.getElementById('perfil-generos');
+      genDiv.innerHTML = user.generos.map(g => `<span class="text-xs bg-stone-800 text-stone-300 px-2.5 py-1 rounded-md">${g}</span>`).join('');
+
+      // Wishlist
+      const wishUl = document.getElementById('perfil-wishlist');
+      wishUl.innerHTML = user.wishlist.map(w => `<li>• ${w}</li>`).join('');
+
+      navegar('perfil');
+    }
+
+    // SPA NAVEGAÇÃO
+    function navegar(tela) {
+      const telas = ['home', 'detalhes-produto', 'forum', 'topico-forum', 'anunciar', 'eventos', 'perfil', 'sobre'];
+      telas.forEach(t => {
+        const el = document.getElementById(`tab-${t}`);
+        if (el) el.classList.add('hidden');
+      });
+
+      const destino = document.getElementById(`tab-${tela}`);
+      if (destino) destino.classList.remove('hidden');
+
+      if (tela === 'forum') renderizarTopicosForum();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // FILTROS DA HOME
+    function aplicarFiltros() {
+      const busca = document.getElementById('filtro-busca').value.toLowerCase();
+      const genero = document.getElementById('filtro-genero').value;
+      const formato = document.getElementById('filtro-formato').value;
+      const modalidade = document.getElementById('filtro-modalidade').value;
+
+      const filtrados = anuncios.filter(item => {
+        const matchesBusca = item.titulo.toLowerCase().includes(busca) || item.artista.toLowerCase().includes(busca) || item.desejo.toLowerCase().includes(busca);
+        const matchesGenero = genero === '' || item.genero === genero;
+        const matchesFormato = formato === '' || item.formato === formato;
+        const matchesMod = modalidade === '' || (modalidade === 'Troca' && (item.tipo === 'Troca' || item.tipo === 'Ambos')) || (modalidade === 'Venda' && (item.tipo === 'Venda' || item.tipo === 'Ambos')) || item.tipo === modalidade;
+        return matchesBusca && matchesGenero && matchesFormato && matchesMod;
+      });
+
+      renderizarAnuncios(filtrados);
+    }
+
+    function filtrarTipo(tipo) {
+      document.getElementById('filtro-modalidade').value = tipo;
+      aplicarFiltros();
+    }
+
+    function togglePrecoField(val) {
+      const campo = document.getElementById('campo-preco');
+      if (val === 'Troca') campo.classList.add('hidden');
+      else campo.classList.remove('hidden');
+    }
+
+    // CRIAR ANÚNCIO
+    function criarAnuncio(e) {
+      e.preventDefault();
+      const novo = {
+        id: Date.now(),
+        titulo: document.getElementById('novo-titulo').value,
+        artista: document.getElementById('novo-artista').value,
+        ano: document.getElementById('novo-ano').value || "Não informado",
+        selo: "Prensagem Nacional",
+        formato: document.getElementById('novo-formato').value,
+        genero: document.getElementById('novo-genero').value,
+        estadoMidia: document.getElementById('novo-estado').value,
+        estadoCapa: "VG+ (Muito Bom)",
+        tipo: document.getElementById('novo-tipo').value,
+        preco: document.getElementById('novo-preco').value || null,
+        desejo: document.getElementById('novo-desejo').value || 'Aberto a propostas de troca',
+        usuario: "@barretovinil",
+        faixas: ["Lado A - Faixa 1", "Lado A - Faixa 2", "Lado B - Faixa 1"],
+        fotos: [
+          document.getElementById('novo-img').value || "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=800&q=80"
+        ]
+      };
+
+      anuncios.unshift(novo);
+      alert('Disco cadastrado com sucesso no sebo!');
+      document.getElementById('form-novo-anuncio').reset();
+      navegar('home');
+      renderizarAnuncios(anuncios);
+    }
+
+    // LOGIN MOCK
+    function abrirModalLogin() { document.getElementById('modal-login').classList.remove('hidden'); }
+    function fecharModalLogin() { document.getElementById('modal-login').classList.add('hidden'); }
+    function realizarLogin(e) {
+      e.preventDefault();
+      alert('Login efetuado com sucesso!');
+      fecharModalLogin();
+    }
+
+    // Render Inicial
+    renderizarAnuncios(anuncios);
+    renderizarTopicosForum();
+  </script>
+</body>
+</html>
